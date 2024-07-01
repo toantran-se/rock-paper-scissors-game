@@ -1,12 +1,13 @@
 import { ToastContainer } from "react-toastify";
 import "./Home.scss";
+import { GameIntro } from "../../shared";
 
 export const Home = () => {
 
 
   return (
     <>
-      <div className="w-screen min-h-screen bg-[#010123] flex items-centers justify-center gap-3 text-white">
+      <div className="w-screen min-h-screen bg-[#010123] flex flex-col items-center  gap-3 text-white">
         <div className="w-full h-fit max-w-lg rounded-xl border border-solid border-white p-3 mt-6 flex items-center justify-between">
           <div>
             {['Rock', 'Paper', 'Scissors'].map((item, index) => (
@@ -22,6 +23,7 @@ export const Home = () => {
           </div>
         </div>
 
+        <GameIntro />
       </div>
 
       <ToastContainer position="top-center" autoClose={1500} theme="light" />
