@@ -1,14 +1,19 @@
+import { useState } from "react";
 import { ToastContainer } from "react-toastify";
+import { GameIntro, PlayModeEnums } from "../../shared";
 import "./Home.scss";
-import { GameIntro } from "../../shared";
 
 export const Home = () => {
+  const [playMode, setPlayMode] = useState("");
 
+  const onChangePlayMode = (playMode: PlayModeEnums) => {
+    setPlayMode(playMode);
+  };
 
   return (
     <>
-      <div className="w-screen min-h-screen bg-[#010123] flex flex-col items-center  gap-3 text-white">
-        <div className="w-full h-fit max-w-lg rounded-xl border border-solid border-white p-3 mt-6 flex items-center justify-between">
+      <div className="w-screen min-h-screen bg-[#010123] flex flex-col items-center justify-center gap-3 text-white">
+        {/* <div className="w-full h-fit max-w-lg rounded-xl border border-solid border-white p-3 mt-6 flex items-center justify-between">
           <div>
             {['Rock', 'Paper', 'Scissors'].map((item, index) => (
               <p key={index} className="text-3xl tracking-wide">
@@ -21,9 +26,9 @@ export const Home = () => {
             <p className="text-lg">SCORE</p>
             <p className="text-3xl font-medium">20</p>
           </div>
-        </div>
+        </div> */}
 
-        <GameIntro />
+        <GameIntro onChangePlayMode={onChangePlayMode} />
       </div>
 
       <ToastContainer position="top-center" autoClose={1500} theme="light" />

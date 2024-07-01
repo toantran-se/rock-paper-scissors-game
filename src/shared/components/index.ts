@@ -1,1 +1,2 @@
-export * from './GameIntro';
+export * from "./GameIntro";
+export * from "./IconCard";
