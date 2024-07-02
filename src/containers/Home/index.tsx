@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
-import { GameIntro, PlayModeEnums } from "../../shared";
+import { GameIntro, OnePlayerMode, PlayModeEnums } from "../../shared";
 import "./Home.scss";
 
 export const Home = () => {
@@ -27,8 +27,8 @@ export const Home = () => {
             <p className="text-3xl font-medium">20</p>
           </div>
         </div> */}
-
-        <GameIntro onChangePlayMode={onChangePlayMode} />
+        {playMode === "" && <GameIntro onChangePlayMode={onChangePlayMode} />}
+        {playMode === PlayModeEnums.OnePlayer && <OnePlayerMode />}
       </div>
 
       <ToastContainer position="top-center" autoClose={1500} theme="light" />
