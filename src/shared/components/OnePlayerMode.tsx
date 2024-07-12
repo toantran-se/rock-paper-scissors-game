@@ -10,6 +10,8 @@ export const OnePlayerMode = () => {
   const [playerChoice, setPlayerChoice] = useState(`${defaultChoice}`);
   const [computerChoice, setComputerChoice] = useState(`${defaultChoice}`);
   const [showOption, setShowOption] = useState(true);
+  const [playerScore, setPlayerScore] = useState(0);
+  const [computerScore, setComputerScore] = useState(0);
   const [result, setResult] = useState("");
 
   const handlePlayerChoice = (choice: string) => {
@@ -30,32 +32,62 @@ export const OnePlayerMode = () => {
     setShowOption(true);
   };
 
+  const onUpdateScore = (result: string) => {
+    if (!result) return;
+
+    if (result === "You Win!") {
+      setPlayerScore(playerScore + 1);
+    }
+
+    if (result === "You Lose!") {
+      setComputerScore(computerScore + 1);
+    }
+  };
+
   useEffect(() => {
-    setResult(DetermineWinner(playerChoice, computerChoice));
+    const result = DetermineWinner(playerChoice, computerChoice);
+    setResult(result);
+    onUpdateScore(result);
   }, [playerChoice, computerChoice]);
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center relative">
       <div className="w-full flex items-center justify-center gap-56">
         <div>
-          <PlayerChoice choice={playerChoice} />
+          <PlayerChoice
+            choice={playerChoice}
+            name={"You"}
+            score={playerScore}
+          />
         </div>
 
-        {!showOption ? (
-          <div className="flex flex-col items-center gap-5">
-            <p className="text-4xl font-bold">{result}</p>
+        <div className="flex flex-col items-center gap-5">
+          <p
+            className={`text-4xl font-bold w-[200px] text-center ${
+              showOption
+                ? "opacity-0"
+                : "opacity-100 transition-opacity duration-200"
+            }`}
+          >
+            {result}
+          </p>
+          {!showOption && (
             <button
               className="btn text-white px-8 py-4 btn-secondary"
               onClick={onPlayAgain}
+              aria-label="Play Again"
             >
               Play Again
             </button>
-          </div>
-        ) : (
-          <div className="opacity-0">{result}</div>
-        )}
+          )}
+        </div>
 
         <div>
-          <PlayerChoice isIconReverse={true} choice={computerChoice} />
+          <PlayerChoice
+            isIconReverse={true}
+            choice={computerChoice}
+            name={"Computer"}
+            score={computerScore}
+          />
         </div>
       </div>
 

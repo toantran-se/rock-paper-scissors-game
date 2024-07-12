@@ -1,6 +1,10 @@
 import { ChoiceEnums } from "../shared";
 
-export const DetermineWinner = (firstChoice: string, secondChoice: string) => {
+export const DetermineWinner = (
+  firstChoice: string,
+  secondChoice: string,
+  isTwoPlayerMode?: boolean
+) => {
   if (firstChoice === secondChoice) {
     return "It's a draw!";
   } else if (
@@ -10,8 +14,8 @@ export const DetermineWinner = (firstChoice: string, secondChoice: string) => {
       secondChoice === ChoiceEnums.Paper) ||
     (firstChoice === ChoiceEnums.Paper && secondChoice === ChoiceEnums.Rock)
   ) {
-    return "You Win!";
+    return isTwoPlayerMode ? "1P Win!" : "You Win!";
   } else {
-    return "You Lose!";
+    return isTwoPlayerMode ? "2P Win!" : "You Lose!";
   }
 };
