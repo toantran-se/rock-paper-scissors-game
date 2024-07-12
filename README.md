@@ -1,4 +1,4 @@
-# Rock-Paper-Scissor Game
+# Rock-Paper-Scissors Game
 
 ## Overview
 
@@ -11,7 +11,7 @@ This is a simple Rock-Paper-Scissors game that allows users to play against the 
 - **Score Tracking**: The game keeps track of the scores for both players.
 
 ## Link
-[Rock-Paper-Scissor Game](rock-paper-scissors-game-rho-five.vercel.app)
+[Rock-Paper-Scissor Game](https://rock-paper-scissors-game-rho-five.vercel.app/)
 
 ## Contact
 
