@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ToastContainer } from "react-toastify";
 import {
   GameIntro,
   OnePlayerMode,
@@ -33,8 +32,6 @@ export const Home = () => {
           </button>
         )}
       </div>
-
-      <ToastContainer position="top-center" autoClose={1500} theme="light" />
     </>
   );
 };

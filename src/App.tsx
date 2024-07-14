@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { Home } from "./containers";
 import "./App.css";
-import "react-toastify/dist/ReactToastify.css";
 
 const router = createBrowserRouter([
   {

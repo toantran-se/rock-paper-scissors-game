@@ -4,6 +4,17 @@ import { ChoiceEnums } from "../enums";
 import { IconCard } from "./IconCard";
 import { PlayerChoice } from "./PlayerChoice";
 import { DetermineWinner } from "../../utilities";
+import { motion } from "framer-motion";
+
+const resultVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+const buttonVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.5 } },
+};
 
 export const OnePlayerMode = () => {
   const defaultChoice = ChoiceEnums.Rock;
@@ -49,75 +60,92 @@ export const OnePlayerMode = () => {
     setResult(result);
     onUpdateScore(result);
   }, [playerChoice, computerChoice]);
+
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center relative">
       <div className="w-full flex items-center justify-center gap-56">
-        <div>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={resultVariants}
+        >
           <PlayerChoice
             choice={playerChoice}
             name={"You"}
             score={playerScore}
           />
-        </div>
+        </motion.div>
 
         <div className="flex flex-col items-center gap-5">
           <p
             className={`text-4xl font-bold w-[200px] text-center ${
-              showOption
-                ? "opacity-0"
-                : "opacity-100 transition-opacity duration-200"
+              showOption ? "opacity-0" : "opacity-100"
             }`}
           >
             {result}
           </p>
           {!showOption && (
-            <button
+            <motion.button
               className="btn text-white px-8 py-4 btn-secondary"
               onClick={onPlayAgain}
               aria-label="Play Again"
+              initial="hidden"
+              animate="visible"
+              variants={buttonVariants}
             >
               Play Again
-            </button>
+            </motion.button>
           )}
         </div>
 
-        <div>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={resultVariants}
+        >
           <PlayerChoice
             isIconReverse={true}
             choice={computerChoice}
             name={"Computer"}
             score={computerScore}
           />
-        </div>
+        </motion.div>
       </div>
 
       {showOption && (
         <div className="absolute bottom-14 flex flex-col gap-5 items-center justify-center">
           <p className="text-2xl font-bold">Take Your Pick</p>
 
-          <div className="flex gap-20 ">
-            <IconCard
-              Icon={GiRock}
-              size={40}
-              borderColor="border-red-500"
-              label="Rock"
-              handleChoice={handlePlayerChoice}
-            />
-            <IconCard
-              Icon={GiPaper}
-              size={40}
-              borderColor="border-yellow-500"
-              label="Paper"
-              handleChoice={handlePlayerChoice}
-            />
-            <IconCard
-              Icon={GiScissors}
-              size={40}
-              borderColor="border-purple-500"
-              label="Scissors"
-              handleChoice={handlePlayerChoice}
-            />
-          </div>
+          <motion.div
+            className="flex gap-20"
+            initial="hidden"
+            animate="visible"
+            variants={resultVariants}
+          >
+            {[GiRock, GiPaper, GiScissors].map((Icon, i) => (
+              <div key={i}>
+                <IconCard
+                  Icon={Icon}
+                  size={40}
+                  borderColor={
+                    Icon === GiRock
+                      ? "border-red-500"
+                      : Icon === GiPaper
+                      ? "border-yellow-500"
+                      : "border-purple-500"
+                  }
+                  label={
+                    Icon === GiRock
+                      ? "Rock"
+                      : Icon === GiPaper
+                      ? "Paper"
+                      : "Scissors"
+                  }
+                  handleChoice={handlePlayerChoice}
+                />
+              </div>
+            ))}
+          </motion.div>
         </div>
       )}
     </div>

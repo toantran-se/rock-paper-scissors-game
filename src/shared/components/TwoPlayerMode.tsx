@@ -2,6 +2,22 @@ import { useEffect, useState } from "react";
 import { DetermineWinner } from "../../utilities";
 import { ChoiceEnums } from "../enums";
 import { PlayerChoice } from "./PlayerChoice";
+import { motion } from "framer-motion";
+
+const resultVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+const buttonVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.5 } },
+};
+
+const playerChoiceVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
 
 export const TwoPlayerMode = () => {
   const defaultChoice = ChoiceEnums.Rock;
@@ -58,7 +74,11 @@ export const TwoPlayerMode = () => {
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center relative">
       <div className="w-full flex items-center justify-center gap-56">
-        <div>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={playerChoiceVariants}
+        >
           <PlayerChoice
             choice={player1Choice}
             name={"1P"}
@@ -66,30 +86,38 @@ export const TwoPlayerMode = () => {
             isShowChoice={showPlayer1Option}
             handlePlayerChoice={handlePlayer1Choice}
           />
-        </div>
+        </motion.div>
 
         <div className="flex flex-col items-center gap-5">
-          <p
-            className={`text-4xl font-bold w-[200px] text-center ${
-              !(player1HasChosen && player2HasChosen)
-                ? "opacity-0"
-                : "opacity-100 transition-opacity duration-200"
-            }`}
+          <motion.p
+            initial="hidden"
+            animate={
+              player1HasChosen && player2HasChosen ? "visible" : "hidden"
+            }
+            variants={resultVariants}
+            className={`text-4xl font-bold w-[200px] text-center`}
           >
             {result}
-          </p>
+          </motion.p>
           {player1HasChosen && player2HasChosen && (
-            <button
+            <motion.button
+              initial="hidden"
+              animate="visible"
+              variants={buttonVariants}
               className="btn text-white px-8 py-4 btn-secondary"
               onClick={onPlayAgain}
               aria-label="Play Again"
             >
               Play Again
-            </button>
+            </motion.button>
           )}
         </div>
 
-        <div>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={playerChoiceVariants}
+        >
           <PlayerChoice
             isIconReverse={true}
             choice={player2Choice}
@@ -98,7 +126,7 @@ export const TwoPlayerMode = () => {
             isShowChoice={showPlayer2Option}
             handlePlayerChoice={handlePlayer2Choice}
           />
-        </div>
+        </motion.div>
       </div>
     </div>
   );

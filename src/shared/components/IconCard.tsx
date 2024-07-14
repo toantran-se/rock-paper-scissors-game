@@ -1,5 +1,5 @@
 import { IconType } from "react-icons";
-
+import { motion } from "framer-motion";
 type IconCardTypes = {
   Icon: IconType;
   handleChoice?: (choice: string) => void;
@@ -7,6 +7,7 @@ type IconCardTypes = {
   size?: number;
   label?: string;
   isIconReverse?: boolean;
+  isHasAnimation?: boolean;
 };
 
 export const IconCard = ({
@@ -16,6 +17,7 @@ export const IconCard = ({
   size,
   label,
   isIconReverse,
+  isHasAnimation = false,
 }: IconCardTypes) => {
   const onChoice = () => {
     if (!label) {
@@ -23,6 +25,13 @@ export const IconCard = ({
     }
 
     handleChoice(label);
+  };
+
+  const shakeAnimation = {
+    shake: {
+      y: [0, -20, 20, -20, 20, 0],
+      transition: { duration: 0.5, repeat: 3 },
+    },
   };
 
   return (
@@ -33,7 +42,12 @@ export const IconCard = ({
         }`}
         onClick={onChoice}
       >
-        <Icon size={size ?? 120} />
+        <motion.div
+          variants={shakeAnimation}
+          animate={isHasAnimation ? "shake" : "visible"}
+        >
+          <Icon size={size ?? 120} />
+        </motion.div>
       </div>
       <p className="text-3xl">{label}</p>
     </div>
