@@ -29,8 +29,8 @@ export const IconCard = ({
 
   const shakeAnimation = {
     shake: {
-      y: [0, -20, 20, -20, 20, 0],
-      transition: { duration: 0.5, repeat: 3 },
+      y: [0, -30, 0],
+      transition: { duration: 0.7, repeat: 3 },
     },
   };
 

@@ -9,6 +9,7 @@ type PlayerChoiceProps = {
   score: number;
   name: string;
   isShowChoice?: boolean;
+  isHasAnimation?: boolean;
   handlePlayerChoice?: (choice: string) => void;
 };
 
@@ -18,6 +19,7 @@ export const PlayerChoice = ({
   score = 0,
   name = "",
   isShowChoice = false,
+  isHasAnimation = false,
   handlePlayerChoice = () => {},
 }: PlayerChoiceProps) => {
   return (
@@ -35,6 +37,7 @@ export const PlayerChoice = ({
             size={200}
             isIconReverse={isIconReverse}
             borderColor="border-orange-500"
+            isHasAnimation={isHasAnimation}
           />
         )}
 
@@ -44,6 +47,7 @@ export const PlayerChoice = ({
             size={200}
             isIconReverse={isIconReverse}
             borderColor="border-orange-500"
+            isHasAnimation={isHasAnimation}
           />
         )}
 
@@ -53,6 +57,7 @@ export const PlayerChoice = ({
             size={200}
             isIconReverse={isIconReverse}
             borderColor="border-orange-500"
+            isHasAnimation={isHasAnimation}
           />
         )}
       </div>

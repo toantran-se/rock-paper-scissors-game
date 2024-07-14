@@ -4,14 +4,9 @@ import { ChoiceEnums } from "../enums";
 import { PlayerChoice } from "./PlayerChoice";
 import { motion } from "framer-motion";
 
-const resultVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
 const buttonVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.5 } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 1 } },
 };
 
 const playerChoiceVariants = {
@@ -23,6 +18,8 @@ export const TwoPlayerMode = () => {
   const defaultChoice = ChoiceEnums.Rock;
   const [player1Choice, setPlayer1Choice] = useState(`${defaultChoice}`);
   const [player2Choice, setPlayer2Choice] = useState(`${defaultChoice}`);
+  const [tempPlayer1Choice, setTempPlayer1Choice] = useState("");
+  const [tempPlayer2Choice, setTempPlayer2Choice] = useState("");
   const [player1Score, setPlayer1Score] = useState(0);
   const [player2Score, setPlayer2Score] = useState(0);
   const [showPlayer1Option, setShowPlayer1Option] = useState(true);
@@ -30,17 +27,18 @@ export const TwoPlayerMode = () => {
   const [player1HasChosen, setPlayer1HasChosen] = useState(false);
   const [player2HasChosen, setPlayer2HasChosen] = useState(false);
   const [result, setResult] = useState("");
+  const [isShaking, setIsShaking] = useState(false);
 
   const handlePlayer1Choice = (choice: string) => {
-    setPlayer1Choice(choice);
+    setTempPlayer1Choice(choice);
     setShowPlayer1Option(false);
-    setPlayer1HasChosen(true);
+      setPlayer1HasChosen(true);
   };
 
   const handlePlayer2Choice = (choice: string) => {
-    setPlayer2Choice(choice);
+    setTempPlayer2Choice(choice);
     setShowPlayer2Option(false);
-    setPlayer2HasChosen(true);
+      setPlayer2HasChosen(true);
   };
 
   const onPlayAgain = () => {
@@ -50,6 +48,7 @@ export const TwoPlayerMode = () => {
     setShowPlayer2Option(true);
     setPlayer1HasChosen(false);
     setPlayer2HasChosen(false);
+    setResult("");
   };
 
   const onUpdateScore = (result: string) => {
@@ -66,9 +65,20 @@ export const TwoPlayerMode = () => {
 
   useEffect(() => {
     if (player1HasChosen && player2HasChosen) {
-      const result = DetermineWinner(player1Choice, player2Choice, true);
-      setResult(result);
-      onUpdateScore(result);
+      setIsShaking(true);
+
+      setTimeout(() => {
+        setPlayer1Choice(tempPlayer1Choice);
+        setPlayer2Choice(tempPlayer2Choice);
+        const result = DetermineWinner(
+          tempPlayer1Choice,
+          tempPlayer2Choice,
+          true
+        );
+        onUpdateScore(result);
+        setResult(result);
+        setIsShaking(false);
+      }, 1100);
     }
   }, [player1Choice, player2Choice, player1HasChosen, player2HasChosen]);
   return (
@@ -85,20 +95,18 @@ export const TwoPlayerMode = () => {
             score={player1Score}
             isShowChoice={showPlayer1Option}
             handlePlayerChoice={handlePlayer1Choice}
+            isHasAnimation={isShaking}
           />
         </motion.div>
 
         <div className="flex flex-col items-center gap-5">
-          <motion.p
-            initial="hidden"
-            animate={
-              player1HasChosen && player2HasChosen ? "visible" : "hidden"
-            }
-            variants={resultVariants}
-            className={`text-4xl font-bold w-[200px] text-center`}
+          <p
+            className={`text-4xl font-bold w-[200px] text-center ${
+              result !== "" ? "opacity-100" : "opacity-0"
+            }`}
           >
             {result}
-          </motion.p>
+          </p>
           {player1HasChosen && player2HasChosen && (
             <motion.button
               initial="hidden"
@@ -125,6 +133,7 @@ export const TwoPlayerMode = () => {
             score={player2Score}
             isShowChoice={showPlayer2Option}
             handlePlayerChoice={handlePlayer2Choice}
+            isHasAnimation={isShaking}
           />
         </motion.div>
       </div>

@@ -24,11 +24,16 @@ export const OnePlayerMode = () => {
   const [playerScore, setPlayerScore] = useState(0);
   const [computerScore, setComputerScore] = useState(0);
   const [result, setResult] = useState("");
+  const [isShaking, setIsShaking] = useState(false);
 
   const handlePlayerChoice = (choice: string) => {
-    setPlayerChoice(choice);
-    setComputerChoice(getRandomChoice());
-    setShowOption(false);
+    setIsShaking(true);
+    setTimeout(() => {
+      setPlayerChoice(choice);
+      setComputerChoice(getRandomChoice());
+      setShowOption(false);
+      setIsShaking(false);
+    }, 2000);
   };
 
   const getRandomChoice = () => {
@@ -73,6 +78,7 @@ export const OnePlayerMode = () => {
             choice={playerChoice}
             name={"You"}
             score={playerScore}
+            isHasAnimation={isShaking}
           />
         </motion.div>
 
@@ -108,6 +114,7 @@ export const OnePlayerMode = () => {
             choice={computerChoice}
             name={"Computer"}
             score={computerScore}
+            isHasAnimation={isShaking}
           />
         </motion.div>
       </div>
